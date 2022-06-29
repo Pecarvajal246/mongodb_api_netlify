@@ -1,24 +1,7 @@
 let connectDB = require("../../config/connectDB");
 let output = require("../../utils/utils.js");
 const middy = require("middy");
-const {
-  jsonBodyParser,
-  validator,
-} = require("middy/middlewares");
-
-const inputSchema = {
-  type: "object",
-  properties: {
-    body: {
-      type: "object",
-      properties: {
-        userId: { type: "number" },
-        items: { type: "array" },
-      },
-      required: ["userId", "items"],
-    },
-  },
-};
+const { jsonBodyParser } = require("middy/middlewares");
 
 const addToCart = async (event) => {
   let { httpMethod: method } = event;
@@ -38,7 +21,5 @@ const addToCart = async (event) => {
     }
   }
 };
-const handler = middy(addToCart)
-  .use(jsonBodyParser())
-  .use(validator({ inputSchema }))
+const handler = middy(addToCart).use(jsonBodyParser());
 module.exports = { handler };
