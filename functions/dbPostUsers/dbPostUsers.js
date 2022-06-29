@@ -4,7 +4,6 @@ const middy = require("middy");
 const {
   jsonBodyParser,
   validator,
-  httpErrorHandler,
 } = require("middy/middlewares");
 
 const inputSchema = {
@@ -58,6 +57,5 @@ const addUser = async (event, context) => {
 
 const handler = middy(addUser)
   .use(jsonBodyParser())
-  .use(validator({ inputSchema }))
-  .use(httpErrorHandler());
+  .use(validator({ inputSchema }));
 module.exports = { handler };
