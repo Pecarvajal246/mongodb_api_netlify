@@ -4,7 +4,7 @@ const {
 
 require('dotenv').config();
 
-let url = `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PASS}@dbstore.rdowu.mongodb.net/?retryWrites=true&w=majority`;
+let url = process.env.MONGO_URL;
 
 async function connectDB() {
     const client = new MongoClient(url);
