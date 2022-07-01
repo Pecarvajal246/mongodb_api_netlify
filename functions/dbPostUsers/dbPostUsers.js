@@ -1,11 +1,8 @@
 let connectDB = require("../../config/connectDB");
 let output = require("../../utils/utils.js");
-const middy = require("middy");
-const {
-  jsonBodyParser,
-  validator,
-  httpErrorHandler,
-} = require("middy/middlewares");
+import middy from '@middy/core'
+import validator from '@middy/validator'
+import httpJsonBodyParser from '@middy/http-json-body-parser'
 
 const inputSchema = {
   type: "object",
@@ -57,7 +54,6 @@ const addUser = async (event, context) => {
 };
 
 const handler = middy(addUser)
-  .use(jsonBodyParser())
+  .use(httpJsonBodyParser())
   .use(validator({ inputSchema }))
-  .use(httpErrorHandler());
 module.exports = { handler };
