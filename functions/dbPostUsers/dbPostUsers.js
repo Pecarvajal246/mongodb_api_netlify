@@ -1,34 +1,12 @@
 let connectDB = require("../../config/connectDB");
 let output = require("../../utils/utils.js");
-const middy = require("middy");
-const {
-  jsonBodyParser,
-  validator,
-  httpErrorHandler,
-} = require("middy/middlewares");
 
-const inputSchema = {
-  type: "object",
-  properties: {
-    body: {
-      type: "object",
-      properties: {
-        userId: { type: "number" },
-        userFirstName: { type: "string" },
-        userLastName: { type: "string" },
-        username: { type: "string" },
-      },
-      required: ["userId"],
-    },
-  },
-};
-
-const addUser = async (event, context) => {
+const handler = async (event) => {
   let { httpMethod: method } = event;
   let client = await connectDB();
   const colUsers = client.db().collection("users");
   if (method == "POST") {
-    const { userId, userFirstName, userLastName, username } = event.body;
+    const { userId, userFirstName, userLastName, username } = JSON.parse(event.body);
     try {
       // agrega el id del usuario, si este no se encuentra en la base de datos
       let r = await colUsers.updateOne(
@@ -56,8 +34,4 @@ const addUser = async (event, context) => {
   }
 };
 
-const handler = middy(addUser)
-  .use(jsonBodyParser())
-  .use(validator({ inputSchema }))
-  .use(httpErrorHandler());
 module.exports = { handler };

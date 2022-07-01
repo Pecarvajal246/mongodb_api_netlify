@@ -11,9 +11,16 @@
   "dependencies": {
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
-    "middy": "^0.36.0",
     "mongodb": "^4.7.0",
     "netlify": "^11.0.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pecarvajal246/mongodb_api_netlify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pecarvajal246/mongodb_api_netlify/issues"
+  },
+  "homepage": "https://github.com/Pecarvajal246/mongodb_api_netlify#readme",
   "description": ""
 }
