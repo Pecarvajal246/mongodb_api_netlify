@@ -12,7 +12,6 @@ const handler = async (event) => {
         { userId },
         { $push: { items: { $each: items } } }
       );
-      console.log(r);
       return output(r);
     } catch (error) {
       console.log(error);
