@@ -7,7 +7,7 @@ const handler = async (event) => {
   const colUsers = client.db().collection("users");
   if (method == "GET") {
     try {
-      let itemsInCart = colUsers.aggregate([
+      let users = colUsers.aggregate([
         {
           $lookup: {
             from: "items",
@@ -17,11 +17,9 @@ const handler = async (event) => {
           },
         },
       ]);
-      for await (const items of itemsInCart) {
-        if (items.userId === parseInt(p.userId)) {
-          let text = items.items_info
-          console.log(text);
-          return output(text);
+      for await (const user of users) {
+        if (user.userId === parseInt(p.userId)) {
+          return output(user);
         }
       }
     } catch (error) {
