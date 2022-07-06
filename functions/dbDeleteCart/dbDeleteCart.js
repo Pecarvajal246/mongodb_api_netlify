@@ -10,8 +10,15 @@ const handler = async (event) => {
     try {
       const { userId, items } = JSON.parse(event.body);
       if (items) {
-        console.log(items);
-        r = await colUsers.updateOne({ userId }, { $pullAll: { items } });
+        r = await colUsers.findOne({ userId });
+        let itemsInCart = r.items;
+        for (const item of items) {
+          const index = itemsInCart.indexOf(item);
+          if (index !== -1) {
+            itemsInCart.splice(index, 1);
+          }
+        }
+        r = await colUsers.updateOne({ userId }, { $set: { items: itemsInCart } });
         return output(r);
       }
       r = await colUsers.updateOne({ userId }, { $unset: { items: "" } });
